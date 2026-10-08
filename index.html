@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MediMitra</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 1. Welcome -->
+<section class="screen" id="s-welcome">
+  <svg class="hero" viewBox="0 0 120 100" aria-hidden="true">
+    <path d="M60 90S8 58 8 30a26 26 0 0 1 52-6 26 26 0 0 1 52 6c0 28-52 60-52 60z" fill="#ef4f5f"/>
+    <path d="M14 48h28l8-20 12 36 10-24 6 8h28" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <h1>MediMitra</h1>
+  <p>Your personalized AI assistant for tracking symptoms and finding urgent care.</p>
+  <input id="key" class="field" type="password" placeholder="Gemini API key" autocomplete="off" aria-label="Gemini API key">
+  <small class="hint">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>. It stays in this browser.</small>
+  <button class="btn" id="start">Start</button>
+  <small class="err" id="e-welcome"></small>
+</section>
+
+<!-- 2. Personal details -->
+<section class="screen" id="s-details" hidden>
+  <h2>Please enter your name, age, and gender.</h2>
+  <div class="fields">
+    <input id="name" class="field" placeholder="Name">
+    <input id="age" class="field" type="number" min="0" max="120" placeholder="Age">
+    <select id="gender" class="field">
+      <option value="">Gender</option><option>Male</option><option>Female</option><option>Other</option>
+    </select>
+  </div>
+  <div class="row"><button class="btn ghost" id="skip">Skip</button><button class="btn" id="d-next">Next</button></div>
+</section>
+
+<!-- 3. Symptoms -->
+<section class="screen" id="s-symptoms" hidden>
+  <h2>Describe your current symptoms or health concerns.</h2>
+  <div class="bar">
+    <textarea id="symptoms" rows="2" placeholder="Type or speak your response."></textarea>
+    <button class="ic" id="mic1" title="Speak">🎤</button>
+    <button class="ic go" id="sym-go" title="Send">➤</button>
+  </div>
+</section>
+
+<!-- 3b. Mark the body -->
+<section class="screen" id="s-body" hidden>
+  <h2>Tap the body where you feel it.</h2>
+  <p class="hint">Tap to place a marker, tap a marker to remove it. Left and right are from the patient's point of view.</p>
+  <svg id="pick" viewBox="0 0 200 300" class="bodysvg big pickable" aria-label="Tap to mark where symptoms are"></svg>
+  <div class="chips" id="chips"></div>
+  <div class="row"><button class="btn ghost" id="b-skip">Skip</button><button class="btn" id="b-next">Next</button></div>
+</section>
+
+<!-- 4. City -->
+<section class="screen" id="s-city" hidden>
+  <h2>Enter your city or town for nearby hospitals.</h2>
+  <div class="bar">
+    <input id="city" placeholder="Type or speak your response.">
+    <button class="ic" id="mic2" title="Speak">🎤</button>
+    <button class="ic go" id="city-go" title="Send">➤</button>
+  </div>
+  <small class="err" id="e-city"></small>
+</section>
+
+<!-- 5. Loading -->
+<section class="screen" id="s-loading" hidden>
+  <div class="blob"></div>
+  <h2>Thinking...</h2>
+  <p id="phase"></p>
+</section>
+
+<!-- 6. Report -->
+<section id="s-report" hidden>
+  <div class="wrap">
+    <header class="card top">
+      <div><h1 id="r-title">Patient Health Dashboard</h1><p class="mute">Welcome back, <b id="r-name"></b></p></div>
+      <div class="meta"><span class="pill" id="r-status"></span><span id="r-who"></span></div>
+    </header>
+    <div class="alert" id="r-alert" hidden>Possible emergency. Call your local emergency number (112 in India) or go to the nearest emergency room now.</div>
+
+    <div class="grid2">
+      <div class="card"><h3>Symptom Diagnostic</h3>
+        <svg id="body" viewBox="0 0 200 300" class="bodysvg" aria-label="Body diagram"></svg>
+        <p class="mute" id="r-marks"></p>
+      </div>
+      <div class="card"><h3>Reported Symptoms</h3>
+        <blockquote id="r-sym"></blockquote><p class="mute" id="r-note"></p>
+      </div>
+    </div>
+
+    <div class="grid2 tall">
+      <div><h3>Potential Causes</h3><ul class="causes" id="r-causes"></ul></div>
+      <div>
+        <div class="card"><h3>Diagnostic Roadmap</h3><ul class="checks" id="r-road"></ul></div>
+        <div class="card well"><h3>Wellness &amp; Recovery</h3><p id="r-well"></p></div>
+      </div>
+    </div>
+
+    <h3 class="sec">Nearby Care Facilities</h3>
+    <div class="grid2" id="r-hosp"></div>
+
+    <p class="disc">DISCLAIMER: This report is generated for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Chest pain is a potential medical emergency. Consult a healthcare provider or visit the nearest emergency room immediately.</p>
+    <button class="btn ghost dark" id="again">Start over</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
